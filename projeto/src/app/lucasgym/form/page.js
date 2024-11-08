@@ -10,7 +10,7 @@ import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import { v4 } from "uuid";
 import * as Yup from "yup";
 
-export default function FaculdadeFormPage(props) {
+export default function gymFormPage(props) {
   // router -> hook para navegação de telas
   const router = useRouter();
 
@@ -19,15 +19,15 @@ export default function FaculdadeFormPage(props) {
   const [estados, setEstados] = useState([]);
   const [cidades, setCidades] = useState([]);
 
-  // Buscar a lista de faculdades no localStorage, se não existir, inicializa uma lista vazia
-  const faculdades = JSON.parse(localStorage.getItem("faculdades")) || [];
+  // Buscar a lista de gym no localStorage, se não existir, inicializa uma lista vazia
+  const gym = JSON.parse(localStorage.getItem("gym")) || [];
 
   // Recuperando id para edição
   const id = props.searchParams.id;
   console.log(props.searchParams.id);
   // Buscar na lista a faculdade com o ID recebido no parametro
-  const faculdadeEditada = faculdades.find((item) => item.id == id);
-  console.log(faculdadeEditada);
+  const gymEditada = gym.find((item) => item.id == id);
+  console.log(gymEditada);
 
   // carregar os dados na inicialização da página
   useEffect(() => {
@@ -46,22 +46,22 @@ export default function FaculdadeFormPage(props) {
   // função para salvar os dados do form
   function salvar(dados) {
     // Se faculdadeEditada existe, mudar os dados e gravar no localStorage
-    if (faculdadeEditada) {
-      Object.assign(faculdadeEditada, dados);
+    if (gymEditada) {
+      Object.assign(gymEditada, dados);
       // Substitui a lista antiga pela nova no localStorage
-      localStorage.setItem("faculdades", JSON.stringify(faculdades));
+      localStorage.setItem("gym", JSON.stringify(gym));
     } else {
       // se faculdadeEditada não existe, é criação de uma nova
       // gerar um ID (Identificador unico)
       dados.id = v4();
-      // Adiciona a nova faculdade na lista de faculdades
-      faculdades.push(dados);
+      // Adiciona a nova faculdade na lista de gym
+      gym.push(dados);
       // Substitui a lista antiga pela nova no localStorage
-      localStorage.setItem("faculdades", JSON.stringify(faculdades));
+      localStorage.setItem("gym", JSON.stringify(gym));
     }
 
-    alert("Faculdade criada com sucesso!");
-    router.push("/faculdades");
+    alert("GYM criada com sucesso!");
+    router.push("/gym");
   }
 
   // Campos do form e valores iniciais(default)
@@ -83,14 +83,13 @@ export default function FaculdadeFormPage(props) {
   });
 
   return (
-    <Pagina titulo={"Cadastro de Faculdade"}>
+    <Pagina titulo={"Cadastro de Gym"}>
       {/* Formulário */}
 
       <Formik
         // Atributos do formik
-        // Se for edição, coloca os dados da faculdadeEditada
         // Se for nova, colocar o initialValues com os valores vazios
-        initialValues={faculdadeEditada || initialValues}
+        initialValues={gymEditada || initialValues}
         validationSchema={validationSchema}
         onSubmit={salvar}
       >
@@ -228,7 +227,7 @@ export default function FaculdadeFormPage(props) {
 
                 {/* botões */}
                 <Form.Group className="text-end">
-                  <Button className="me-2" href="/faculdades">
+                  <Button className="me-2" href="/gym">
                     <FaArrowLeft /> Voltar
                   </Button>
                   <Button type="submit" variant="success">

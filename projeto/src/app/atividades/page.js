@@ -5,73 +5,58 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function CursosPage() {
-  const [cursos, setCursos] = useState([]);
+export default function atividadesPage() {
+  const [atividades, setatividades] = useState([]);
 
- 
   useEffect(() => {
-    // Busca a lista do localStorage, se não existir, inicia uma vazia
-    const cursosLocalStorage = JSON.parse(localStorage.getItem("cursos")) || [];
-    // guarda a lista no estado faculdades
-    setCursos(cursosLocalStorage);
-    console.log(cursosLocalStorage);
+    const atividadesLocalStorage = JSON.parse(localStorage.getItem("atividades")) || [];
+    setatividades(atividadesLocalStorage);
   }, []);
 
-  // Função para exclusão do item
-  function excluir(curso) {
-    // Confirma com o usuário a exclusão
-    if (window.confirm(`Deseja realmente excluir o curso ${curso.nome}?`)) {
-      // filtra a lista antiga removando o curso recebido
-      const novaLista = cursos.filter((item) => item.id !== curso.id);
-      // grava no localStorage a nova lista
-      localStorage.setItem("cursos", JSON.stringify(novaLista));
-      // grava a nova lista no estado para renderizar na tela
-      setCursos(novaLista);
-      alert("Curso excluído com sucesso!");
+  const excluir = (aluno) => {
+    if (window.confirm(`Deseja realmente excluir o atividades ${atividades.nome}?`)) {
+      const novaLista = atividades.filter((item) => item.id !== atividades.id);
+      localStorage.setItem("atividades", JSON.stringify(novaLista));
+      setatividades(novaLista);
+      alert("atividades excluído com sucesso!");
     }
-  }
+  };
 
   return (
-    <Pagina titulo={"Lista de Cursos"}>
+    <Pagina titulo={"Lista de atividades"}>
       <div className="text-end mb-2">
-        <Button href="/cursos/form">
+        <Button href="/atividades/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
 
-      {/* Tabela com os Cursos */}
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Area</th>
-            <th>Nota</th>
-            <th>Status</th>
-            <th>Faculdade</th>
-            <th>Ações</th>
+            <th>Foto</th>
+            <th>Matricula</th>            <th>Nome</th>
+              <th>Faculdade</th>
+            <th>Curso</th>
+            <th>Periodo</th>
           </tr>
         </thead>
         <tbody>
-          {cursos.map((curso) => {
-            return (
-              <tr>
-                <td>{curso.nome}</td>
-                <td>{curso.area}</td>
-                <td>{curso.nota}</td>
-                <td>{curso.status}</td>
-                <td>{curso.faculdade}</td>
-                <td className="text-center">
-                  {/* Botões das ações */}
-                  <Button className="me-2" href={`/cursos/form?id=${curso.id}`}>
-                    <FaPen />
-                  </Button>
-                  <Button variant="danger" onClick={() => excluir(curso)}>
-                    <FaTrash />
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
+          {atividades.map((atividades) => (
+            <tr key={atividades.id}>
+              <td>{atividades.nome}</td>
+              <td>{atividades.sobrenome}</td>
+              <td>{atividades.email}</td>
+              <td>{atividades.faculdade}</td>
+              <td>{atividades.curso}</td>              <td className="text-center">
+                <Button className="me-2" href={`/atividades/form?id=${atividades.id}`}>
+                  <FaPen />
+                </Button>
+                <Button variant="danger" onClick={() => excluir(atividades)}>
+                  <FaTrash />
+                </Button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </Pagina>

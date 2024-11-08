@@ -5,77 +5,59 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function ProfessoresPage() {
-  const [professores, setProfessores] = useState([]);
-
-  // Faz alguma coisa quando o usuário acessa a tela
+export default function personaisPage() {
+  const [personais, setpersonais] = useState([]);
   useEffect(() => {
-    // Busca a lista do localStorage, se não existir, inicia uma vazia
-    const professoresLocalStorage =
-      JSON.parse(localStorage.getItem("professores")) || [];
-    // guarda a lista no estado
-    setProfessores(professoresLocalStorage);
-    console.log(professoresLocalStorage);
+    const personaisLocalStorage = JSON.parse(localStorage.getItem("personais")) || [];
+    setpersonais(personaisLocalStorage);
   }, []);
 
-  // Função para exclusão do item
-  function excluir(professor) {
-    // Confirma com o usuário a exclusão
-    if (
-      window.confirm(`Deseja realmente excluir o professor ${professor.nome}?`)
-    ) {
-      // filtra a lista antiga removando o professor recebido
-      const novaLista = professores.filter((item) => item.id !== professor.id);
-      // grava no localStorage a nova lista
-      localStorage.setItem("professores", JSON.stringify(novaLista));
-      // grava a nova lista no estado para renderizar na tela
-      setProfessores(novaLista);
-      alert("Professor excluído com sucesso!");
+  const excluir = (aluno) => {
+    if (window.confirm(`Deseja realmente excluir o  ${personais.nome}?`)) {
+      const novaLista = personais.filter((item) => item.id !== personais.id);
+      localStorage.setItem("personais", JSON.stringify(novaLista));
+      setpersonais(novaLista);
+      alert("Personais excluído com sucesso!");
     }
-  }
+  };
 
   return (
-    <Pagina titulo={"Lista de Professores"}>
+    <Pagina titulo={"Lista de personais"}>
       <div className="text-end mb-2">
-        <Button href="/professores/form">
+        <Button href="/personais/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
-
-      {/* Tabela com os Professores */}
-      <Table striped bordered hover>
+      
+          <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Nome</th>
+            <th>Foto</th>
             <th>Matricula</th>
-            <th>Status</th>
+            <th>Nome</th>
+            <th>Faculdade</th>
             <th>Curso</th>
-            <th>Ações</th>
+            <th>Periodo</th>
           </tr>
         </thead>
         <tbody>
-          {professores.map((professor) => {
-            return (
-              <tr>
-                <td>{professor.nome}</td>
-                <td>{professor.matricula}</td>
-                <td>{professor.status}</td>
-                <td>{professor.curso}</td>
-                <td className="text-center">
-                  {/* Botões das ações */}
-                  <Button
-                    className="me-2"
-                    href={`/professores/form?id=${professor.id}`}
-                  >
-                    <FaPen />
-                  </Button>
-                  <Button variant="danger" onClick={() => excluir(professor)}>
-                    <FaTrash />
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
+          {personais.map((personais) => (
+            <tr key={personais.id}>
+              <td>{personais.nome}</td>
+              <td>{personais.sobrenome}</td>
+              <td>{personais.email}</td>
+              <td>{personais.faculdade}</td>
+              <td>{personais.curso}</td>
+              <td className="text-center">
+                <Button className="me-2" href={`/personais/form?id=${personais.id}`}>
+                  <FaPen />
+                </Button>
+                <Button variant="danger" onClick={() => excluir(personais)}>
+                  <FaTrash />
+                </Button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </Pagina>

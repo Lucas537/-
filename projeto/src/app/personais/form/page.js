@@ -8,71 +8,78 @@ import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import { v4 } from "uuid";
 import * as Yup from "yup";
 
-export default function ProfessorFormPage(props) {
+export default function personaiseFormPage(props) {
   // router -> hook para navegação de telas
   const router = useRouter();
 
-  // Busca a lista de cursos para usar no select
-  const cursos = JSON.parse(localStorage.getItem("cursos")) || [];
+  // Busca a lista de personaises para usar no select
+  const personais = JSON.parse(localStorage.getItem("personaises")) || [];
 
-  // Buscar a lista de cursos no localStorage, se não existir, inicializa uma lista vazia
-  const professores = JSON.parse(localStorage.getItem("professores")) || [];
+  // Buscar a lista de trabalhos no localStorage, se não existir, inicializa uma lista vazia
+  const personaises = JSON.parse(localStorage.getItem("personaises")) || [];
 
   // Recuperando id para edição
   const id = props.searchParams.id;
   console.log(props.searchParams.id);
-  // Buscar na lista a faculdade com o ID recebido no parametro
-  const professorEditado = professores.find((item) => item.id == id);
-  console.log(professorEditado);
+  // Buscar na lista a trabalho com o ID recebido no parametro
+  const personaisEditado = personais.find((item) => item.id == id);
+  console.log(personaisEditado);
 
   // função para salvar os dados do form
   function salvar(dados) {
-    // Se professorEditado existe, mudar os dados e gravar no localStorage
-    if (professorEditado) {
-      Object.assign(professorEditado, dados);
+    // Se trabalhoEditado existe, mudar os dados e gravar no localStorage
+    if (personaisEditado) {
+      Object.assign(personaisEditado, dados);
       // Substitui a lista antiga pela nova no localStorage
-      localStorage.setItem("professores", JSON.stringify(professores));
+      localStorage.setItem("personaises", JSON.stringify(personaises));
     } else {
-      // se professorEditado não existe, é criação de uma nova
+      // se trabalhoEditado não existe, é criação de uma nova
       // gerar um ID (Identificador unico)
       dados.id = v4();
-      // Adiciona a nova faculdade na lista de faculdades
-      professores.push(dados);
+      // Adiciona a nova trabalho na lista de trabalhos
+      personaises.push(dados);
       // Substitui a lista antiga pela nova no localStorage
-      localStorage.setItem("professores", JSON.stringify(professores));
+      localStorage.setItem("personaises", JSON.stringify(personaises));
     }
 
-    alert("Professor criado com sucesso!");
-    router.push("/professores");
+    alert("Personais criado com sucesso!");
+    router.push("/personais");
   }
+
+  
 
   // Campos do form e valores iniciais(default)
   const initialValues = {
     nome: "",
-    dataNascimento: "",
-    matricula: "",
+    carro: "",
+    area: "",
+    nota: "",
     status: "",
-    curso: "",
+    trabalho: "",
   };
 
   // Esquema de validação com Yup
   const validationSchema = Yup.object().shape({
     nome: Yup.string().required("Campo obrigatório"),
-    dataNascimento: Yup.date().required("Campo obrigatório"),
-    matricula: Yup.string().required("Campo obrigatório"),
+    carro: Yup.string().required("Campo obrigatório"),
+    area: Yup.string().required("Campo obrigatório"),
+    nota: Yup.number()
+      .min(1, "Nota inválida")
+      .max(5, "Nota inválida")
+      .required("Campo obrigatório"),
     status: Yup.string().required("Campo obrigatório"),
-    curso: Yup.string().required("Campo obrigatório"),
+    trabalho: Yup.string().required("Campo obrigatório"),
   });
 
   return (
-    <Pagina titulo={"Cadastro de Professor"}>
+    <Pagina titulo={"Cadastro de trabalho"}>
       {/* Formulário */}
 
       <Formik
         // Atributos do formik
-        // Se for edição, coloca os dados de professorEditado
+        // Se for edição, coloca os dados de trabalhoEditado
         // Se for nova, colocar o initialValues com os valores vazios
-        initialValues={professorEditado || initialValues}
+        initialValues={personaisEditado || initialValues}
         validationSchema={validationSchema}
         onSubmit={salvar}
       >
@@ -98,7 +105,7 @@ export default function ProfessorFormPage(props) {
                 {/* Campos do form */}
                 <Row className="mb-2">
                   <Form.Group as={Col}>
-                    <Form.Label>Nome:</Form.Label>
+                    <Form.Label>Mecanico:</Form.Label>
                     <Form.Control
                       name="nome"
                       type="text"
@@ -114,42 +121,25 @@ export default function ProfessorFormPage(props) {
                   </Form.Group>
 
                   <Form.Group as={Col}>
-                    <Form.Label>Data de Nascimento:</Form.Label>
+                    <Form.Label>carro:</Form.Label>
                     <Form.Control
-                      name="dataNascimento"
-                      type="date"
-                      value={values.dataNascimento}
+                      name="carro"
+                      type="text"
+                      value={values.carro}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isValid={touched.dataNascimento && !errors.dataNascimento}
-                      isInvalid={
-                        touched.dataNascimento && errors.dataNascimento
-                      }
+                      isValid={touched.carro && !errors.carro}
+                      isInvalid={touched.carro && errors.carro}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.dataNascimento}
+                      {errors.carro}
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Row>
 
-                <Row className="mb-2">
-                  <Form.Group as={Col}>
-                    <Form.Label>Matricula:</Form.Label>
-                    <Form.Control
-                      name="matricula"
-                      type="text"
-                      value={values.matricula}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      isValid={touched.matricula && !errors.matricula}
-                      isInvalid={touched.matricula && errors.matricula}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.matricula}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                
 
-                  <Form.Group as={Col}>
+                <Row className="mb-2"> <Form.Group as={Col}>
                     <Form.Label>Status:</Form.Label>
                     <Form.Select
                       name="status"
@@ -160,38 +150,20 @@ export default function ProfessorFormPage(props) {
                       isInvalid={touched.status && errors.status}
                     >
                       <option value="">Selecione</option>
-                      <option value="Ativo">Ativo</option>
-                      <option value="Inativo">Inativo</option>
+                      <option value="mecanica">Mecanica</option>
+                      <option value="Lanternagen">Lanternagen</option>
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
                       {errors.status}
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group as={Col}>
-                    <Form.Label>Cursos:</Form.Label>
-                    <Form.Select
-                      name="curso"
-                      value={values.cursos}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      isValid={touched.curso && !errors.curso}
-                      isInvalid={touched.curso && errors.curso}
-                    >
-                      <option value="">Selecione</option>
-                      {cursos.map((curso) => (
-                        <option value={curso.nome}>{curso.nome}</option>
-                      ))}
-                    </Form.Select>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.curso}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+                  
                 </Row>
 
                 {/* botões */}
                 <Form.Group className="text-end">
-                  <Button className="me-2" href="/faculdades">
+                  <Button className="me-2" href="/personais">
                     <FaArrowLeft /> Voltar
                   </Button>
                   <Button type="submit" variant="success">

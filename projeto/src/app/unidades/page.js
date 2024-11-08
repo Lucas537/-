@@ -5,31 +5,31 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function DisciplinasPage() {
-  const [disciplinas, setDisciplinas] = useState([]);
+export default function UnidadesPage() {
+  const [unidades, setUnidades] = useState([]);
 
   // Carrega as disciplinas quando a tela é acessada
   useEffect(() => {
     // Busca as disciplinas do localStorage, se não existir, inicia uma lista vazia
-    const disciplinasLocalStorage = JSON.parse(localStorage.getItem("disciplinas")) || [];
-    setDisciplinas(disciplinasLocalStorage);
-    console.log(disciplinasLocalStorage);
+    const unidadesLocalStorage = JSON.parse(localStorage.getItem("unidades")) || [];
+    setUnidades(unidadesLocalStorage);
+    console.log(unidadesLocalStorage);
   }, []);
 
   // Função para exclusão de uma disciplina
-  function excluir(disciplina) {
-    if (window.confirm(`Deseja realmente excluir a disciplina ${disciplina.nome}?`)) {
-      const novaLista = disciplinas.filter((item) => item.id !== disciplina.id);
-      localStorage.setItem("disciplinas", JSON.stringify(novaLista));
-      setDisciplinas(novaLista);
-      alert("Disciplina excluída com sucesso!");
+  function excluir(unidades) {
+    if (window.confirm(`Deseja realmente excluir a unidades ${unidades.nome}?`)) {
+      const novaLista = unidades.filter((item) => item.id !== unidades.id);
+      localStorage.setItem("unidades", JSON.stringify(novaLista));
+      setUnidades(novaLista);
+      alert("unidades excluída com sucesso!");
     }
   }
 
   return (
-    <Pagina titulo={"Disciplinas"}>
+    <Pagina titulo={"Unidades"}>
       <div className="text-end mb-2">
-        <Button href="/disciplinas/form">
+        <Button href="/unidades/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
@@ -47,19 +47,19 @@ export default function DisciplinasPage() {
           </tr>
         </thead>
         <tbody>
-          {disciplinas.map((disciplina) => (
-            <tr key={disciplina.id}>
-              <td>{disciplina.nome}</td>
-              <td>{disciplina.descricao}</td>
-              <td>{disciplina.status}</td>
-              <td>{disciplina.curso}</td>
-              <td>{disciplina.professor}</td>
+          {unidades.map((unidades) => (
+            <tr key={unidades.id}>
+              <td>{unidades.nome}</td>
+              <td>{unidades.descricao}</td>
+              <td>{unidades.status}</td>
+              <td>{unidades.curso}</td>
+              <td>{unidades.professor}</td>
               <td className="text-center">
                 {/* Botões das ações */}
-                <Button className="me-2" href={`/disciplinas/form?id=${disciplina.id}`}>
+                <Button className="me-2" href={`/unidades/form?id=${unidades.id}`}>
                   <FaPen />
                 </Button>
-                <Button variant="danger" onClick={() => excluir(disciplina)}>
+                <Button variant="danger" onClick={() => excluir(unidades)}>
                   <FaTrash />
                 </Button>
               </td>

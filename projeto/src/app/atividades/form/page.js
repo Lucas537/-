@@ -8,42 +8,42 @@ import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import { v4 } from "uuid";
 import * as Yup from "yup";
 
-export default function CursoFormPage(props) {
+export default function atividadesFormPage(props) {
   // router -> hook para navegação de telas
   const router = useRouter();
 
   // Busca a lista de faculdades para usar no select
-  const faculdades = JSON.parse(localStorage.getItem("faculdades")) || [];
+  const atividades = JSON.parse(localStorage.getItem("valor")) || [];
 
-  // Buscar a lista de cursos no localStorage, se não existir, inicializa uma lista vazia
-  const cursos = JSON.parse(localStorage.getItem("cursos")) || [];
+  // Buscar a lista de atividadess no localStorage, se não existir, inicializa uma lista vazia
+  const valor = JSON.parse(localStorage.getItem("valor")) || [];
 
   // Recuperando id para edição
   const id = props.searchParams.id;
   console.log(props.searchParams.id);
   // Buscar na lista a faculdade com o ID recebido no parametro
-  const cursoEditado = cursos.find((item) => item.id == id);
-  console.log(cursoEditado);
+  const atividadesEditado = atividades.find((item) => item.id == id);
+  console.log(atividadesEditado);
 
   // função para salvar os dados do form
   function salvar(dados) {
-    // Se cursoEditado existe, mudar os dados e gravar no localStorage
-    if (cursoEditado) {
-      Object.assign(cursoEditado, dados);
+    // Se atividadesEditado existe, mudar os dados e gravar no localStorage
+    if (atividadesEditado) {
+      Object.assign(atividadesEditado, dados);
       // Substitui a lista antiga pela nova no localStorage
-      localStorage.setItem("cursos", JSON.stringify(cursos));
+      localStorage.setItem("atividades", JSON.stringify(atividades));
     } else {
-      // se cursoEditado não existe, é criação de uma nova
+      // se atividadesEditado não existe, é criação de uma nova
       // gerar um ID (Identificador unico)
       dados.id = v4();
       // Adiciona a nova faculdade na lista de faculdades
-      cursos.push(dados);
+      atividadess.push(dados);
       // Substitui a lista antiga pela nova no localStorage
-      localStorage.setItem("cursos", JSON.stringify(cursos));
+      localStorage.setItem("atividades", JSON.stringify(atividades));
     }
 
-    alert("Curso criado com sucesso!");
-    router.push("/cursos");
+    alert("atividades criadas com sucesso!");
+    router.push("/atividades");
   }
 
   // Lista de Áreas
@@ -74,18 +74,18 @@ export default function CursoFormPage(props) {
       .max(5, "Nota inválida")
       .required("Campo obrigatório"),
     status: Yup.string().required("Campo obrigatório"),
-    faculdade: Yup.string().required("Campo obrigatório"),
+    atividades: Yup.string().required("Campo obrigatório"),
   });
 
   return (
-    <Pagina titulo={"Cadastro de Curso"}>
+    <Pagina titulo={"Cadastro de atividades"}>
       {/* Formulário */}
 
       <Formik
         // Atributos do formik
-        // Se for edição, coloca os dados de cursoEditado
+        // Se for edição, coloca os dados de atividadesEditado
         // Se for nova, colocar o initialValues com os valores vazios
-        initialValues={cursoEditado || initialValues}
+        initialValues={atividadesEditado || initialValues}
         validationSchema={validationSchema}
         onSubmit={salvar}
       >
@@ -204,29 +204,29 @@ export default function CursoFormPage(props) {
                   </Form.Group>
 
                   <Form.Group as={Col}>
-                    <Form.Label>Faculdade:</Form.Label>
+                    <Form.Label>Atividades:</Form.Label>
                     <Form.Select
-                      name="faculdade"
-                      value={values.faculdade}
+                      name="Atividades"
+                      value={values.atividades}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isValid={touched.faculdade && !errors.faculdade}
-                      isInvalid={touched.faculdade && errors.faculdade}
+                      isValid={touched.faculdade && !errors.atividade}
+                      isInvalid={touched.faculdade && errors.atividade}
                     >
                       <option value="">Selecione</option>
-                      {faculdades.map((faculdade) => (
-                        <option value={faculdade.nome}>{faculdade.nome}</option>
+                      {atividades.map((atividade) => (
+                        <option value={atividade.nome}>{atividade.nome}</option>
                       ))}
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
-                      {errors.faculdade}
+                      {errors.atividade}
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Row>
 
                 {/* botões */}
                 <Form.Group className="text-end">
-                  <Button className="me-2" href="/faculdades">
+                  <Button className="me-2" href="/atividades">
                     <FaArrowLeft /> Voltar
                   </Button>
                   <Button type="submit" variant="success">

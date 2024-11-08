@@ -8,182 +8,171 @@ import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import { v4 } from "uuid";
 import * as Yup from "yup";
 
-export default function DisciplinaFormPage(props) {
+export default function trabalhoFormPage(props) {
+  // router -> hook para navegação de telas
   const router = useRouter();
 
-  // Busca a lista de cursos e professores para usar nos selects
-  const cursos = JSON.parse(localStorage.getItem("cursos")) || [];
-  const professores = JSON.parse(localStorage.getItem("professores")) || [];
+  // Busca a lista de trabalhos para usar no select
+  const unidades= JSON.parse(localStorage.getItem("unidades")) || [];
 
-  // Recupera o ID para edição, se disponível
+  // Buscar a lista de trabalhos no localStorage, se não existir, inicializa uma lista vazia
+  const unidadess = JSON.parse(localStorage.getItem("unidades")) || [];
+
+  // Recuperando id para edição
   const id = props.searchParams.id;
-  const disciplinas = JSON.parse(localStorage.getItem("disciplinas")) || [];
-  const disciplinaEditada = disciplinas.find((item) => item.id == id);
+  console.log(props.searchParams.id);
+  // Buscar na lista a trabalho com o ID recebido no parametro
+  const unidadesEditado = unidades.find((item) => item.id == id);
+  console.log(unidadesEditado);
 
-  // Função para salvar os dados do form
+  // função para salvar os dados do form
   function salvar(dados) {
-    if (disciplinaEditada) {
-      Object.assign(disciplinaEditada, dados);
-      localStorage.setItem("disciplinas", JSON.stringify(disciplinas));
+    // Se trabalhoEditado existe, mudar os dados e gravar no localStorage
+    if (unidadesEditado) {
+      Object.assign(trabalhoEditado, dados);
+      // Substitui a lista antiga pela nova no localStorage
+      localStorage.setItem("unidades", JSON.stringify(unidades));
     } else {
+      // se trabalhoEditado não existe, é criação de uma nova
+      // gerar um ID (Identificador unico)
       dados.id = v4();
-      disciplinas.push(dados);
-      localStorage.setItem("disciplinas", JSON.stringify(disciplinas));
+      // Adiciona a nova trabalho na lista de unidades
+      unidades.push(dados);
+      // Substitui a lista antiga pela nova no localStorage
+      localStorage.setItem("unidades", JSON.stringify(unidades));
     }
 
-    alert("Disciplina salva com sucesso!");
-    router.push("/disciplinas");
+    alert("trabalho criado com sucesso!");
+    router.push("/unidades");
   }
 
-  // Valores iniciais do formulário
+  
+
+  // Campos do form e valores iniciais(default)
   const initialValues = {
     nome: "",
-    descricao: "",
-    curso: "",
-    professor: "",
+    carro: "",
+    area: "",
+    nota: "",
     status: "",
+    trabalho: "",
   };
 
-  // Validação com Yup
+  // Esquema de validação com Yup
   const validationSchema = Yup.object().shape({
     nome: Yup.string().required("Campo obrigatório"),
-    descricao: Yup.string().required("Campo obrigatório"),
-    curso: Yup.string().required("Campo obrigatório"),
-    professor: Yup.string().required("Campo obrigatório"),
+    carro: Yup.string().required("Campo obrigatório"),
+    area: Yup.string().required("Campo obrigatório"),
+    nota: Yup.number()
+      .min(1, "Nota inválida")
+      .max(5, "Nota inválida")
+      .required("Campo obrigatório"),
     status: Yup.string().required("Campo obrigatório"),
+    unidades: Yup.string().required("Campo obrigatório"),
   });
 
   return (
-    <Pagina titulo={"Disciplina"}>
+    <Pagina titulo={"Cadastro de unidades"}>
+      {/* Formulário */}
+
       <Formik
-        initialValues={disciplinaEditada || initialValues}
+        // Atributos do formik
+        // Se for edição, coloca os dados de trabalhoEditado
+        // Se for nova, colocar o initialValues com os valores vazios
+        initialValues={unidadesEditado || initialValues}
         validationSchema={validationSchema}
         onSubmit={salvar}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-        }) => {
-          return (
-            <Form onSubmit={handleSubmit}>
-              <Row className="mb-2">
-                <Form.Group as={Col}>
-                  <Form.Label>Nome:</Form.Label>
-                  <Form.Control
-                    name="nome"
-                    type="text"
-                    value={values.nome}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    isValid={touched.nome && !errors.nome}
-                    isInvalid={touched.nome && errors.nome}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.nome}
-                  </Form.Control.Feedback>
-                </Form.Group>
+        {/* construção do template do formulário */}
+        {
+          // os valores e funções do formik
+          ({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => {
+            // ações do formulário
+            // debug
+            // console.log("DEBUG >>>")
+            // console.log({values, errors, touched})
 
-                <Form.Group as={Col}>
-                  <Form.Label>Descrição:</Form.Label>
-                  <Form.Control
-                    name="descricao"
-                    type="text"
-                    value={values.descricao}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    isValid={touched.descricao && !errors.descricao}
-                    isInvalid={touched.descricao && errors.descricao}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.descricao}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
+            // retorno com o template jsx do formulário
+            return (
+              <Form onSubmit={handleSubmit}>
+                {/* Campos do form */}
+                <Row className="mb-2">
+                  <Form.Group as={Col}>
+                    <Form.Label>Mecanico:</Form.Label>
+                    <Form.Control
+                      name="nome"
+                      type="text"
+                      value={values.nome}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isValid={touched.nome && !errors.nome}
+                      isInvalid={touched.nome && errors.nome}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.nome}
+                    </Form.Control.Feedback>
+                  </Form.Group>
 
-              <Row className="mb-2">
-                <Form.Group as={Col}>
-                  <Form.Label>Curso:</Form.Label>
-                  <Form.Select
-                    name="curso"
-                    value={values.curso}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    isValid={touched.curso && !errors.curso}
-                    isInvalid={touched.curso && errors.curso}
-                  >
-                    <option value="">Selecione</option>
-                    {cursos.map((curso) => (
-                      <option key={curso.id} value={curso.id}>
-                        {curso.nome}
-                      </option>
-                    ))}
-                  </Form.Select>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.curso}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                  <Form.Group as={Col}>
+                    <Form.Label>carro:</Form.Label>
+                    <Form.Control
+                      name="carro"
+                      type="text"
+                      value={values.carro}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isValid={touched.carro && !errors.carro}
+                      isInvalid={touched.carro && errors.carro}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.carro}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
 
-                <Form.Group as={Col}>
-                  <Form.Label>Professor:</Form.Label>
-                  <Form.Select
-                    name="professor"
-                    value={values.professor}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    isValid={touched.professor && !errors.professor}
-                    isInvalid={touched.professor && errors.professor}
-                  >
-                    <option value="">Selecione</option>
-                    {professores
-                      .filter((prof) => prof.cursoId === values.curso)
-                      .map((prof) => (
-                        <option key={prof.id} value={prof.id}>
-                          {prof.nome}
-                        </option>
-                      ))}
-                  </Form.Select>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.professor}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
+                <Row className="mb-2">
+                  <Form.Group as={Col}>
+                    <Form.Label>Status:</Form.Label>
+                    <Form.Select
+                      name="status"
+                      value={values.status}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isValid={touched.status && !errors.status}
+                      isInvalid={touched.status && errors.status}
+                    >
+                      <option value="">Selecione</option>
+                      <option value="mecanica">Mecanica</option>
+                      <option value="Lanternagen">Lanternagen</option>
+                    </Form.Select>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.status}
+                    </Form.Control.Feedback>
+                  </Form.Group>
 
-              <Row className="mb-2">
-                <Form.Group as={Col}>
-                  <Form.Label>Status:</Form.Label>
-                  <Form.Select
-                    name="status"
-                    value={values.status}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    isValid={touched.status && !errors.status}
-                    isInvalid={touched.status && errors.status}
-                  >
-                    <option value="">Selecione</option>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Inativo">Inativo</option>
-                  </Form.Select>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.status}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
+                  
+                </Row>
 
-              <Form.Group className="text-end">
-                <Button className="me-2" href="/disciplinas">
-                  <FaArrowLeft /> Voltar
-                </Button>
-                <Button type="submit" variant="success">
-                  <FaCheck /> Enviar
-                </Button>
-              </Form.Group>
-            </Form>
-          );
-        }}
+                {/* botões */}
+                <Form.Group className="text-end">
+                  <Button className="me-2" href="/trabalhos">
+                    <FaArrowLeft /> Voltar
+                  </Button>
+                  <Button type="submit" variant="success">
+                    <FaCheck /> Enviar
+                  </Button>
+                </Form.Group>
+              </Form>
+            );
+          }
+        }
       </Formik>
     </Pagina>
   );

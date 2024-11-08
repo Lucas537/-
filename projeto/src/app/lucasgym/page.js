@@ -5,44 +5,44 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function FaculdadesPage() {
-  const [faculdades, setFaculdades] = useState([]);
+export default function gymPage() {
+  const [gym, setgym] = useState([]);
 
   // Faz alguma coisa quando o usuário acessa a tela
   useEffect(() => {
     // Busca a lista do localStorage, se não existir, inicia uma vazia
-    const faculdadesLocalStorage =
-      JSON.parse(localStorage.getItem("faculdades")) || [];
+    const gymLocalStorage =
+      JSON.parse(localStorage.getItem("Gym")) || [];
     // guarda a lista no estado faculdades
-    setFaculdades(faculdadesLocalStorage);
-    console.log(faculdadesLocalStorage);
+    setgym(gymLocalStorage);
+    console.log(gymLocalStorage);
   }, []);
 
   // Função para exclusão do item
-  function excluir(faculdade) {
+  function excluir(gym) {
     // Confirma com o usuário a exclusão
     if (
-      window.confirm(`Deseja realmente excluir a faculdade ${faculdade.nome}?`)
+      window.confirm(`Deseja realmente excluir a gym ${gym.nome}?`)
     ) {
       // filtra a lista antiga removando a faculdade recebida
-      const novaLista = faculdades.filter((item) => item.id !== faculdade.id);
+      const novaLista = gym.filter((item) => item.id !== gym.id);
       // grava no localStorage a nova lista
-      localStorage.setItem("faculdades", JSON.stringify(novaLista));
+      localStorage.setItem("gym", JSON.stringify(novaLista));
       // grava a nova lista no estado para renderizar na tela
-      setFaculdades(novaLista);
-      alert("Faculdade excluída com sucesso!");
+      setgym(novaLista);
+      alert("Gym excluída com sucesso!");
     }
   }
 
   return (
-    <Pagina titulo={"Lista de Faculdades"}>
+    <Pagina titulo={"Lista de GYM"}>
       <div className="text-end mb-2">
-        <Button href="/faculdades/form">
+        <Button href="/lucasgym/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
 
-      {/* Tabela com as faculdades */}
+      {/* Tabela com as gym */}
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -55,23 +55,23 @@ export default function FaculdadesPage() {
           </tr>
         </thead>
         <tbody>
-          {faculdades.map((faculdade) => {
+          {gym.map((gym) => {
             return (
               <tr>
-                <td>{faculdade.nome}</td>
-                <td>{faculdade.endereco}</td>
-                <td>{faculdade.pais}</td>
-                <td>{faculdade.estado}</td>
-                <td>{faculdade.cidade}</td>
+                <td>{gym.nome}</td>
+                <td>{gym.endereco}</td>
+                <td>{gym.pais}</td>
+                <td>{gym.estado}</td>
+                <td>{gym.cidade}</td>
                 <td className="text-center">
                   {/* Botões das ações */}
                   <Button
                     className="me-2"
-                    href={`/faculdades/form?id=${faculdade.id}`}
+                    href={`/lucasgym/form?id=${gym.id}`}
                   >
                     <FaPen />
                   </Button>
-                  <Button variant="danger" onClick={() => excluir(faculdade)}>
+                  <Button variant="danger" onClick={() => excluir(gym)}>
                     <FaTrash />
                   </Button>
                 </td>

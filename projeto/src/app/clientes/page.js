@@ -5,27 +5,27 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function AlunosPage() {
-  const [alunos, setAlunos] = useState([]);
+export default function clientesPage() {
+  const [clientes, setclientes] = useState([]);
 
   useEffect(() => {
-    const alunosLocalStorage = JSON.parse(localStorage.getItem("alunos")) || [];
-    setAlunos(alunosLocalStorage);
+    const clientesLocalStorage = JSON.parse(localStorage.getItem("clientes")) || [];
+    setclientes(clientesLocalStorage);
   }, []);
 
   const excluir = (aluno) => {
-    if (window.confirm(`Deseja realmente excluir o aluno ${aluno.nome}?`)) {
-      const novaLista = alunos.filter((item) => item.id !== aluno.id);
-      localStorage.setItem("alunos", JSON.stringify(novaLista));
-      setAlunos(novaLista);
-      alert("Aluno excluído com sucesso!");
+    if (window.confirm(`Deseja realmente excluir o cliente ${cliente.nome}?`)) {
+      const novaLista = clientes.filter((item) => item.id !== cliente.id);
+      localStorage.setItem("clientes", JSON.stringify(novaLista));
+      setclientes(novaLista);
+      alert("Cliente excluído com sucesso!");
     }
   };
 
   return (
-    <Pagina titulo={"Lista de Alunos"}>
+    <Pagina titulo={"Lista de clientes"}>
       <div className="text-end mb-2">
-        <Button href="/alunos/form">
+        <Button href="/clientes/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
@@ -42,18 +42,18 @@ export default function AlunosPage() {
           </tr>
         </thead>
         <tbody>
-          {alunos.map((aluno) => (
-            <tr key={aluno.id}>
-              <td>{aluno.nome}</td>
-              <td>{aluno.sobrenome}</td>
-              <td>{aluno.email}</td>
-              <td>{aluno.faculdade}</td>
-              <td>{aluno.curso}</td>
+          {clientes.map((clientes) => (
+            <tr key={clientes.id}>
+              <td>{clientes.nome}</td>
+              <td>{clientes.sobrenome}</td>
+              <td>{clientes.email}</td>
+              <td>{clientes.faculdade}</td>
+              <td>{clientes.curso}</td>
               <td className="text-center">
-                <Button className="me-2" href={`/alunos/form?id=${aluno.id}`}>
+                <Button className="me-2" href={`/clientes/form?id=${clientes.id}`}>
                   <FaPen />
                 </Button>
-                <Button variant="danger" onClick={() => excluir(aluno)}>
+                <Button variant="danger" onClick={() => excluir(clientes)}>
                   <FaTrash />
                 </Button>
               </td>

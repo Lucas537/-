@@ -1,10 +1,10 @@
 "use client";
-
+import "./banner.css";
 import Pagina from "@/components/Pagina";
 import { Button, Card, Col, Row } from "react-bootstrap";
 
 export default function HomePage() {
-  const faculdades = JSON.parse(localStorage.getItem("Atividades")) || [];
+  const atividades = JSON.parse(localStorage.getItem("Atividades")) || [];
   const cursos = JSON.parse(localStorage.getItem("Clientes")) || [];
   const professores = JSON.parse(localStorage.getItem("Lucas Gym")) || [];
   const disciplinas = JSON.parse(localStorage.getItem("Personais")) || [];
@@ -15,41 +15,44 @@ export default function HomePage() {
       nome: "Atividades",
       imagem:
         "https://pratiquefitness.com.br/wp-content/uploads/2017/12/quais-sao-as-atividades-de-academia-mais-procuradas-e-por-que.jpg",
-      quantidade: faculdades.length,
-      link: "/faculdades",
+      quantidade: atividades.length,
+      link: "/atividades",
     },
     {
       nome: "Clientes",
       imagem:
         "https://blog.wehelpsoftware.com/wp-content/uploads/2021/03/como-oferecer-qualidade-no-atendimento-em-academias-blog-wehelp-770x515.jpg",
       quantidade: cursos.length,
-      link: "/cursos",
+      link: "/clientes",
     },
     {
       nome: "Lucas Gym",
       imagem:
         "https://blog.sistemapacto.com.br/wp-content/uploads/2022/04/Blog-650x350-segunda-1280x720-1-1160x680.webp",
       quantidade: professores.length,
-      link: "/professores",
+      link: "/lucasgym",
     },
     {
       nome: "Personais",
       imagem:
         "https://www.academiaatlantis.com.br/aula-de-natacao/imagens/musculacao-com-personal.jpg",
       quantidade: disciplinas.length,
-      link: "/disciplinas",
+      link: "/personais",
     },
     {
       nome: "Unidades",
       imagem:
         "https://natalemfoco.com.br/wp-content/uploads/2023/07/selfit-academia-sao-goncalo.jpg",
       quantidade: alunos.length,
-      link: "/alunos",
+      link: "/unidades",
     },
   ];
 
   return (
-    <Pagina titulo={"GYM LUCAS"}>
+    <Pagina titulo={""}>
+      <header className="banner">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYeebKAAh_h2gRH7F6kbH0_4Njx0s6HaO78w&s" alt="O banner Principal da página"/>
+            </header>
       <Row md={4}>
         {lista.map((item) => (
           <Col className="py-2">

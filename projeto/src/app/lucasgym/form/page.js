@@ -1,5 +1,5 @@
 "use client";
-
+import '../../banner.css'
 import Pagina from "@/components/Pagina";
 import apiLocalidades from "@/services/apiLocalidades";
 import { Formik } from "formik";
@@ -61,7 +61,7 @@ export default function gymFormPage(props) {
     }
 
     alert("GYM criada com sucesso!");
-    router.push("/gym");
+    'router.push("/lucasgym");'
   }
 
   // Campos do form e valores iniciais(default)
@@ -214,6 +214,11 @@ export default function gymFormPage(props) {
                       isValid={touched.cidade && !errors.cidade}
                       isInvalid={touched.cidade && errors.cidade}
                     >
+                      <option value="">Selecione</option>
+                      <option value="Águas Claras">Águas Claras</option>
+                      <option value="Asa Norte">Asa Norte</option>
+                      <option value="Taguatinga">Taguatinga</option>
+                      <option value="Ceilândia">Ceilândia</option>
                       <option value="">Selecione</option>
                       {cidades.map((cidade) => (
                         <option value={cidade.nome}>{cidade.nome}</option>

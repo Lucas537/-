@@ -1,5 +1,5 @@
 "use client";
-
+import '../banner.css'
 import Pagina from "@/components/Pagina";
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
@@ -32,22 +32,19 @@ export default function personaisPage() {
           <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Foto</th>
-            <th>Matricula</th>
             <th>Nome</th>
-            <th>Faculdade</th>
-            <th>Curso</th>
+            <th>Especialidade</th>
+            <th>Endereço</th>
             <th>Periodo</th>
           </tr>
         </thead>
         <tbody>
           {personais.map((personais) => (
             <tr key={personais.id}>
+              <td>{personais.foto}</td>
               <td>{personais.nome}</td>
-              <td>{personais.sobrenome}</td>
-              <td>{personais.email}</td>
-              <td>{personais.faculdade}</td>
-              <td>{personais.curso}</td>
+              <td>{personais.especialidade}</td>
+              <td>{personais.periodo}</td>
               <td className="text-center">
                 <Button className="me-2" href={`/personais/form?id=${personais.id}`}>
                   <FaPen />

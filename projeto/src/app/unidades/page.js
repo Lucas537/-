@@ -1,5 +1,5 @@
 "use client";
-
+import '../banner.css';
 import Pagina from "@/components/Pagina";
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
@@ -8,15 +8,15 @@ import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 export default function UnidadesPage() {
   const [unidades, setUnidades] = useState([]);
 
-  // Carrega as disciplinas quando a tela é acessada
+  // Carrega as unidades quando a tela é acessada
   useEffect(() => {
-    // Busca as disciplinas do localStorage, se não existir, inicia uma lista vazia
+    // Busca as unidades do localStorage, se não existir, inicia uma lista vazia
     const unidadesLocalStorage = JSON.parse(localStorage.getItem("unidades")) || [];
     setUnidades(unidadesLocalStorage);
     console.log(unidadesLocalStorage);
   }, []);
 
-  // Função para exclusão de uma disciplina
+  // Função para exclusão de uma unidade
   function excluir(unidades) {
     if (window.confirm(`Deseja realmente excluir a unidades ${unidades.nome}?`)) {
       const novaLista = unidades.filter((item) => item.id !== unidades.id);
@@ -34,26 +34,25 @@ export default function UnidadesPage() {
         </Button>
       </div>
 
-      {/* Tabela com as Disciplinas */}
+  
+      
+          {/* Tabela com as unidades */}
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>Nome</th>
-            <th>Descrição</th>
-            <th>Status</th>
-            <th>Curso</th>
-            <th>Professor</th>
-            <th>Ações</th>
+            <th>Endereço</th>
+            <th>CEP</th>
+            <th>Telefone</th>
           </tr>
         </thead>
         <tbody>
           {unidades.map((unidades) => (
             <tr key={unidades.id}>
               <td>{unidades.nome}</td>
-              <td>{unidades.descricao}</td>
-              <td>{unidades.status}</td>
-              <td>{unidades.curso}</td>
-              <td>{unidades.professor}</td>
+              <td>{unidades.endereço}</td>
+              <td>{unidades.cep}</td>
+              <td>{unidades.telefone}</td>
               <td className="text-center">
                 {/* Botões das ações */}
                 <Button className="me-2" href={`/unidades/form?id=${unidades.id}`}>

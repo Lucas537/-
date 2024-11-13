@@ -19,10 +19,6 @@ export default function Pagina({ titulo, children }) {
         </Container>
       </Navbar>
 
-    
-      <div className="bg-secondary text-center text-white py-2">
-        <h1>{titulo}</h1>
-      </div>
 
      
       <Container className="mt-2">{children}</Container>

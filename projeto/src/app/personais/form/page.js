@@ -1,10 +1,11 @@
 "use client";
-
+import '../../banner.css'
 import Pagina from "@/components/Pagina";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FaArrowLeft, FaCheck } from "react-icons/fa";
+import ReactInputMask from "react-input-mask";
 import { v4 } from "uuid";
 import * as Yup from "yup";
 
@@ -15,28 +16,28 @@ export default function personaiseFormPage(props) {
   // Busca a lista de personaises para usar no select
   const personais = JSON.parse(localStorage.getItem("personaises")) || [];
 
-  // Buscar a lista de trabalhos no localStorage, se não existir, inicializa uma lista vazia
+  // Buscar a lista de personais no localStorage, se não existir, inicializa uma lista vazia
   const personaises = JSON.parse(localStorage.getItem("personaises")) || [];
 
   // Recuperando id para edição
   const id = props.searchParams.id;
   console.log(props.searchParams.id);
-  // Buscar na lista a trabalho com o ID recebido no parametro
+  // Buscar na lista a personais com o ID recebido no parametro
   const personaisEditado = personais.find((item) => item.id == id);
   console.log(personaisEditado);
 
   // função para salvar os dados do form
   function salvar(dados) {
-    // Se trabalhoEditado existe, mudar os dados e gravar no localStorage
+    // Se personaisEditado existe, mudar os dados e gravar no localStorage
     if (personaisEditado) {
       Object.assign(personaisEditado, dados);
       // Substitui a lista antiga pela nova no localStorage
       localStorage.setItem("personaises", JSON.stringify(personaises));
     } else {
-      // se trabalhoEditado não existe, é criação de uma nova
+      // se Editado não existe, é criação de uma nova
       // gerar um ID (Identificador unico)
       dados.id = v4();
-      // Adiciona a nova trabalho na lista de trabalhos
+      // Adiciona o novo personal na lista 
       personaises.push(dados);
       // Substitui a lista antiga pela nova no localStorage
       localStorage.setItem("personaises", JSON.stringify(personaises));
@@ -51,11 +52,11 @@ export default function personaiseFormPage(props) {
   // Campos do form e valores iniciais(default)
   const initialValues = {
     nome: "",
-    carro: "",
+    idade: "",
     area: "",
-    nota: "",
-    status: "",
-    trabalho: "",
+    email: "",
+    telefone: "",
+    endereço: "",
   };
 
   // Esquema de validação com Yup
@@ -68,16 +69,16 @@ export default function personaiseFormPage(props) {
       .max(5, "Nota inválida")
       .required("Campo obrigatório"),
     status: Yup.string().required("Campo obrigatório"),
-    trabalho: Yup.string().required("Campo obrigatório"),
+    personais: Yup.string().required("Campo obrigatório"),
   });
 
   return (
-    <Pagina titulo={"Cadastro de trabalho"}>
+    <Pagina titulo={"Cadastro de personais"}>
       {/* Formulário */}
 
       <Formik
         // Atributos do formik
-        // Se for edição, coloca os dados de trabalhoEditado
+        // Se for edição, coloca os dados de personaisEditado
         // Se for nova, colocar o initialValues com os valores vazios
         initialValues={personaisEditado || initialValues}
         validationSchema={validationSchema}
@@ -105,7 +106,7 @@ export default function personaiseFormPage(props) {
                 {/* Campos do form */}
                 <Row className="mb-2">
                   <Form.Group as={Col}>
-                    <Form.Label>Mecanico:</Form.Label>
+                    <Form.Label>Nome Completo:</Form.Label>
                     <Form.Control
                       name="nome"
                       type="text"
@@ -120,27 +121,47 @@ export default function personaiseFormPage(props) {
                     </Form.Control.Feedback>
                   </Form.Group>
 
+
                   <Form.Group as={Col}>
-                    <Form.Label>carro:</Form.Label>
+                    <Form.Label>Especalidade</Form.Label>
                     <Form.Control
-                      name="carro"
+                      name="Especialidade"
                       type="text"
-                      value={values.carro}
+                      value={values.especialidade}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isValid={touched.carro && !errors.carro}
-                      isInvalid={touched.carro && errors.carro}
+                      isValid={touched.especialidade && !errors.especialidade}
+                      isInvalid={touched.especialidade && errors.especialidade}
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.carro}
+                      {errors.especialidade}
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Row>
 
-                
+              
+            
+                <Row className="mb-2"> <Form.Group as={Col}>
+                <Form.Label>Endereço:</Form.Label>
+                <Form.Control
+                  name="endereco"
+                  type="text"
+                  placeholder="Digite o endereço"
+                  value={values.endereco}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isValid={touched.endereco && !errors.endereco}
+                  isInvalid={touched.endereco && errors.endereco}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.endereco}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+           
 
                 <Row className="mb-2"> <Form.Group as={Col}>
-                    <Form.Label>Status:</Form.Label>
+                    <Form.Label>Turno:</Form.Label>
                     <Form.Select
                       name="status"
                       value={values.status}
@@ -149,15 +170,20 @@ export default function personaiseFormPage(props) {
                       isValid={touched.status && !errors.status}
                       isInvalid={touched.status && errors.status}
                     >
-                      <option value="">Selecione</option>
-                      <option value="mecanica">Mecanica</option>
-                      <option value="Lanternagen">Lanternagen</option>
+                      <option value="">Turno</option>
+                      <option value="Matutino">Matutino</option>
+                      <option value="Vespertino">Vespertino</option>
+                      <option value="Noturno">Noturno</option>
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
                       {errors.status}
                     </Form.Control.Feedback>
                   </Form.Group>
+                  <Row className="mb-2">
 
+              
+
+              </Row>
                   
                 </Row>
 

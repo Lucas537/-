@@ -1,17 +1,228 @@
+/* Aplicando o fundo desfocado no body */
 body {
-    background-image: url('https://www.konnenfitness.com.br/assets/uploads/blog/como-montar-uma-academia.webp'); /* Caminho para a imagem dentro de public */
-    background-size: cover;  /*  A imagem vai cobrir toda a tela*/
-    background-position: center center; /*  A imagem será centralizada */
-    background-repeat: no-repeat; /* Não repete a imagem */
-    min-height: 100vh; /* Garante que a imagem ocupe toda a altura da página */
-    margin: 0;  /*  Remove a margem padrão */
-    padding: 0; /* Remove o padding padrão */
-  }
-  .banner {
-    background-color: white;
-    text-align: center;
-
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  min-height: 100vh; /* Garante que o body tenha ao menos a altura total da tela */
+  overflow-x: hidden; /* Previne o deslocamento horizontal indesejado */
 }
+
+/* A imagem de fundo desfocada */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://d1muf25xaso8hp.cloudfront.net/https://img.criativodahora.com.br/2024/02/criativo-65da75249a7beimg-2024-02-2465da75249a7c4.jpg?w=1000&h=&auto=compress&dpr=1&fit=max'); /* Imagem de fundo fornecida */
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px);  /* Desfoca a imagem */
+  z-index: -1;  /* Coloca a imagem atrás do conteúdo */
+}
+
+/* Estilo para o conteúdo principal */
+.main-content {
+  position: relative;
+  z-index: 1;  /* Garante que o conteúdo fique acima da imagem desfocada */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente */
+  border-radius: 10px;
+}
+
+/* Outros estilos para banner, cards, botões, etc., continuam iguais. */
+
+/* Estilo para o banner */
+.banner {
+  position: relative;
+  height: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 .banner img {
-    max-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+/* Cabeçalho do banner */
+.banner::before {
+  content: "Bem-vindo à Lucas Gym!";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Estilo do container de Cards */
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.card-img {
+  height: 220px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Estilo do título do Card */
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Estilo para o botão do Card */
+.btn {
+  background-color: #e63946;
+  color: white;
+  font-weight: bold;
+  border-radius: 25px;
+  padding: 10px 20px;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #d62c2f;
+  transform: scale(1.05);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .banner::before {
+    font-size: 1.8rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+  }
+}
+
+/* Carrossel achatado */
+.custom-carousel .carousel-item {
+  height: 300px; /* Ajuste para definir a altura que você deseja */
+}
+
+.custom-carousel .carousel-item img {
+  object-fit: cover; /* Isso vai garantir que as imagens cubram o espaço sem distorcer */
+  height: 100%;
+}
+
+/* Opcional: para ajustar as legendas e melhorar a visibilidade */
+.custom-carousel .carousel-caption {
+  bottom: 10px; /* Coloca as legendas mais perto da parte inferior */
+  background-color: rgba(0, 0, 0, 0.5); /* Escurece o fundo para melhor visibilidade */
+  color: white;
+  padding: 10px;
+}
+
+/* Cores relacionadas à academia */
+:root {
+  --cor-primaria: #1f8e5f; /* Verde energizante */
+  --cor-secundaria: #ff9f00; /* Laranja vibrante */
+  --cor-terciaria: #333; /* Azul escuro para contrastar */
+  --cor-fundo: #f4f4f4; /* Fundo claro */
+}
+
+body {
+  background-color: var(--cor-fundo);
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+/* Carrossel de Imagens */
+.custom-carousel .carousel-item {
+  transition: transform 0.5s ease-in-out;
+}
+
+.custom-carousel .carousel-item img {
+  border-radius: 10px;
+}
+
+/* Estilizando os botões */
+.btn-custom {
+  background-color: var(--cor-primaria);
+  color: #fff;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.btn-custom:hover {
+  background-color: var(--cor-secundaria);
+}
+
+/* Cartões */
+.card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--cor-primaria);
+}
+
+.card-body {
+  background-color: #fff;
+  border-top: 2px solid var(--cor-primaria);
+}
+
+.card-footer {
+  background-color: #f7f7f7;
+  border-top: 1px solid var(--cor-primaria);
+}
+
+/* Modificando o fundo do carrossel */
+.custom-carousel-image {
+  object-fit: cover;
+  height: 400px; /* Ajuste a altura das imagens do carrossel */
+  border-radius: 10px;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
+.carousel-caption h3 {
+  color: #fff;
+  font-weight: bold;
+}
+
+.carousel-caption p {
+  color: #ddd;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .custom-carousel-image {
+    height: 300px;
+  }
+
+  .card-body {
+    font-size: 0.9rem;
+  }
 }

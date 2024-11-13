@@ -1,59 +1,60 @@
 "use client";
-
+import '../banner.css'
 import Pagina from "@/components/Pagina";
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function clientesPage() {
-  const [clientes, setclientes] = useState([]);
+export default function ClientesPage() {
+  const [clientes, setClientes] = useState([]);
 
+  // Carrega os dados dos clientes do localStorage quando a tela é carregada
   useEffect(() => {
     const clientesLocalStorage = JSON.parse(localStorage.getItem("clientes")) || [];
-    setclientes(clientesLocalStorage);
+    setClientes(clientesLocalStorage);
   }, []);
 
-  const excluir = (aluno) => {
+  // Função para exclusão de um cliente
+  function excluir(cliente) {
     if (window.confirm(`Deseja realmente excluir o cliente ${cliente.nome}?`)) {
       const novaLista = clientes.filter((item) => item.id !== cliente.id);
       localStorage.setItem("clientes", JSON.stringify(novaLista));
-      setclientes(novaLista);
+      setClientes(novaLista);
       alert("Cliente excluído com sucesso!");
     }
-  };
+  }
 
   return (
-    <Pagina titulo={"Lista de clientes"}>
+    <Pagina titulo="Lista de Clientes">
       <div className="text-end mb-2">
         <Button href="/clientes/form">
           <FaPlusCircle /> Novo
         </Button>
       </div>
 
+      {/* Tabela com os Clientes */}
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Foto</th>
-            <th>Matricula</th>
             <th>Nome</th>
-            <th>Faculdade</th>
-            <th>Curso</th>
-            <th>Periodo</th>
+            <th>Endereço</th>
+            <th>CPF</th>
+            <th>Email</th>
           </tr>
         </thead>
         <tbody>
-          {clientes.map((clientes) => (
-            <tr key={clientes.id}>
-              <td>{clientes.nome}</td>
-              <td>{clientes.sobrenome}</td>
-              <td>{clientes.email}</td>
-              <td>{clientes.faculdade}</td>
-              <td>{clientes.curso}</td>
+          {clientes.map((cliente) => (
+            <tr key={cliente.id}>
+              <td>{cliente.nome}</td>
+              <td>{cliente.endereco}</td>
+              <td>{cliente.cpf}</td>
+              <td>{cliente.email}</td>
               <td className="text-center">
-                <Button className="me-2" href={`/clientes/form?id=${clientes.id}`}>
+                {/* Botões das ações */}
+                <Button className="me-2" href={`/clientes/form?id=${cliente.id}`}>
                   <FaPen />
                 </Button>
-                <Button variant="danger" onClick={() => excluir(clientes)}>
+                <Button variant="danger" onClick={() => excluir(cliente)}>
                   <FaTrash />
                 </Button>
               </td>

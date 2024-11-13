@@ -1,35 +1,35 @@
 "use client";
-
+import '../banner.css'
 import Pagina from "@/components/Pagina";
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { FaPen, FaPlusCircle, FaTrash } from "react-icons/fa";
 
-export default function gymPage() {
-  const [gym, setgym] = useState([]);
+export default function lucasgymPage() {
+  const [lucasgym, setlucasgyms] = useState([]);
 
   // Faz alguma coisa quando o usuário acessa a tela
   useEffect(() => {
     // Busca a lista do localStorage, se não existir, inicia uma vazia
-    const gymLocalStorage =
-      JSON.parse(localStorage.getItem("Gym")) || [];
-    // guarda a lista no estado faculdades
-    setgym(gymLocalStorage);
-    console.log(gymLocalStorage);
+    const lucasgymsLocalStorage =
+      JSON.parse(localStorage.getItem("lucasgym")) || [];
+    // guarda a lista no estado 
+    setlucasgyms(lucasgymsLocalStorage);
+    console.log(lucasgymsLocalStorage);
   }, []);
 
   // Função para exclusão do item
-  function excluir(gym) {
+  function excluir(lucasgym) {
     // Confirma com o usuário a exclusão
     if (
-      window.confirm(`Deseja realmente excluir a gym ${gym.nome}?`)
+      window.confirm(`Deseja realmente excluir a gym ${lucasgym.lucasgym}?`)
     ) {
       // filtra a lista antiga removando a faculdade recebida
-      const novaLista = gym.filter((item) => item.id !== gym.id);
+      const novaLista = lucasgym.filter((item) => item.id !== lucasgym.id);
       // grava no localStorage a nova lista
-      localStorage.setItem("gym", JSON.stringify(novaLista));
+      localStorage.setItem("lucasgym", JSON.stringify(novaLista));
       // grava a nova lista no estado para renderizar na tela
-      setgym(novaLista);
+      setlucasgyms(novaLista);
       alert("Gym excluída com sucesso!");
     }
   }
@@ -55,23 +55,23 @@ export default function gymPage() {
           </tr>
         </thead>
         <tbody>
-          {gym.map((gym) => {
+          {lucasgym.map((lucasgym) => {
             return (
-              <tr>
-                <td>{gym.nome}</td>
-                <td>{gym.endereco}</td>
-                <td>{gym.pais}</td>
-                <td>{gym.estado}</td>
-                <td>{gym.cidade}</td>
+              <tr key={lucasgym.id}>
+                <td>{lucasgym.nome}</td>
+                <td>{lucasgym.endereco}</td>
+                <td>{lucasgym.pais}</td>
+                <td>{lucasgym.estado}</td>
+                <td>{lucasgym.cidade}</td>
                 <td className="text-center">
                   {/* Botões das ações */}
                   <Button
                     className="me-2"
-                    href={`/lucasgym/form?id=${gym.id}`}
+                    href={`/lucasgym/form?id=${lucasgym.id}`}
                   >
                     <FaPen />
                   </Button>
-                  <Button variant="danger" onClick={() => excluir(gym)}>
+                  <Button variant="danger" onClick={() => excluir(lucasgym)}>
                     <FaTrash />
                   </Button>
                 </td>
